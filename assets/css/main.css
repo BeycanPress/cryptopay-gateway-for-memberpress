@@ -1,0 +1,13 @@
+.mepr-payment-option-label.payment-option-cryptopay, .mepr-payment-option-label.payment-option-cryptopay_lite {
+    background-image: url(../images/icon.svg);
+    background-size: 32px;
+}
+
+.waiting-icon svg {
+    width: 94px!important;
+    height: 94px!important;
+}
+
+.mp_payment_form_wrapper {
+    padding: 50px 0;
+}
