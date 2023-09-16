@@ -37,8 +37,7 @@ register_activation_hook(MEMBERPRESS_CRYPTOPAY_FILE, function() {
 	}
 });
 
-add_action('plugins_loaded', function() {
-
+function memberpress_cryptopay_addModels() {
 	if (class_exists(Loader::class)) {
 		require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/pro/Models/MemberPressCrpyoPayModel.php';
 		Hook::addFilter('models', function($models) {
@@ -56,6 +55,13 @@ add_action('plugins_loaded', function() {
 			]);
 		});
 	}
+}
+
+memberpress_cryptopay_addModels();
+
+add_action('plugins_loaded', function() {
+
+	memberpress_cryptopay_addModels();
 
 	load_plugin_textdomain('memberpress-cryptopay', false, basename(__DIR__) . '/languages');
 
