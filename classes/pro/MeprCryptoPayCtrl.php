@@ -4,7 +4,6 @@ if (!defined('ABSPATH'))
     die;
 
 use BeycanPress\Http\Response;
-use BeycanPress\CryptoPay\Services;
 use BeycanPress\CryptoPay\PluginHero\Hook;
 use BeycanPress\CryptoPay\Pages\TransactionPage;
 
@@ -12,8 +11,6 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
 {
     public function load_hooks() 
     {
-        Services::registerAddon('memberpress');
-        
         if (is_admin()) {
             new TransactionPage(
                 esc_html__('MemberPress transactions', 'cryptopay'),

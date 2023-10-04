@@ -5,6 +5,7 @@ if (!defined('ABSPATH'))
 
 use BeycanPress\CryptoPay\Settings;
 use BeycanPress\CryptoPay\Services;
+use BeycanPress\CryptoPay\PluginHero\Hook;
 
 class MeprCryptoPayGateway extends MeprBaseRealGateway 
 {
@@ -129,34 +130,14 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
      */
     public function display_payment_form($amount, $user, $productId, $transactionId)
     {
-        $coupon = false;
-        $meprOptions = MeprOptions::fetch();
-        $prd = new MeprProduct($productId);
-        $txn = new MeprTransaction($productId);
-
-        //Artifically set the price of the $prd in case a coupon was used
-        if ($prd->price != $amount) {
-            $coupon = true;
-            $prd->price = $amount;
-        }
-
-        //$this->mepr_invoice_header($txn);
-        ?>
-        <div class="mp_wrapper mp_payment_form_wrapper">
-            <?php
-                echo Services::startPaymentProcess([
-                    'amount' => $amount,
-                    'currency' => $meprOptions->currency_code,
-                ], 'memberpress', true, [
-                    'MemberPress' => [
-                        'userId' => (int) $user->ID,
-                        'productId' => (int) $productId,
-                        'transactionId' => (int) $transactionId,
-                    ]
-                ]);
-            ?>
-        </div>
-        <?php
+        $mepr_db = new MeprDb();
+        $txn = new MeprTransaction($transactionId);
+        $txn = $mepr_db->get_one_record($mepr_db->transactions, [
+            'user_id' => $user->ID,
+            'product_id' => $productId,
+            'status' => MeprTransaction::$pending_str,
+        ]);
+        $this->show_cryptopay_payment_form($txn);
     }
 
     /**
@@ -208,7 +189,25 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
     }
 
     public function display_options_form() { 
-        return;
+        $mepr_options = MeprOptions::fetch();
+        if (isset($this->settings->cryptopay_theme)) {
+            $cryptopayTheme = trim($this->settings->cryptopay_theme);
+        } else {
+            $cryptopayTheme = 'default';
+        }
+        ?>
+        <table >
+            <tr>
+                <td><?php echo esc_html__('Theme:', 'memberpress-cryptopay'); ?></td>
+                <td>
+                    <select name="<?php echo $mepr_options->integrations_str; ?>[<?php echo $this->id;?>][cryptopay_theme]" class="mepr-auto-trim">
+                        <option value="default" <?php echo esc_attr($cryptopayTheme == 'default' ? 'selected' : '') ?>><?php echo esc_html__('Default', 'memberpress-cryptopay') ?></option>
+                        <option value="dark" <?php echo esc_attr($cryptopayTheme == 'dark' ? 'selected' : '') ?>><?php echo esc_html__('Dark', 'memberpress-cryptopay') ?></option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <?php
     }
 
     public function validate_options_form($errors) {
@@ -289,8 +288,17 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
         $meprOptions = MeprOptions::fetch();
         $prd = new MeprProduct($txn->product_id);
         $amount = MeprUtils::maybe_round_to_minimum_amount($prd->price);
-
+        if (isset($this->settings->cryptopay_theme)) {
+            $cryptopayTheme = trim($this->settings->cryptopay_theme);
+        } else {
+            $cryptopayTheme = 'default';
+        }
         //$this->mepr_invoice_header($txn);
+
+        Hook::addFilter('theme_memberpress', function() use ($cryptopayTheme) {
+            return $cryptopayTheme;
+        });
+
         ?>
         <div class="mp_wrapper mp_payment_form_wrapper">
             <?php
@@ -309,6 +317,9 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
                 .cp-modal .waiting-icon svg {
                     width: 94px!important;
                     height: 94px!important;
+                }
+                .cp-explorer-btn {
+                    height: auto!important;
                 }
             </style>
         </div>

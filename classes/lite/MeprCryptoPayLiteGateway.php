@@ -147,7 +147,7 @@ class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
                 echo Services::startPaymentProcess([
                     'amount' => $amount,
                     'currency' => $meprOptions->currency_code,
-                ], 'memberpress', true, [
+                ], 'memberpress_lite', true, [
                     'MemberPress' => [
                         'userId' => (int) $user->ID,
                         'productId' => (int) $productId,

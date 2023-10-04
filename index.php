@@ -17,8 +17,10 @@
 */
 
 use \BeycanPress\CryptoPay\Loader;
+use \BeycanPress\CryptoPay\Services;
 use \BeycanPress\CryptoPay\PluginHero\Hook;
 use \BeycanPress\CryptoPayLite\Loader as LiteLoader;
+use \BeycanPress\CryptoPayLite\Services as LiteServices;
 use \BeycanPress\CryptoPayLite\PluginHero\Hook as LiteHook;
 
 define('MEMBERPRESS_CRYPTOPAY_FILE', __FILE__);
@@ -51,7 +53,7 @@ function memberpress_cryptopay_addModels() {
 		require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/lite/Models/MemberPressCrpyoPayLiteModel.php';
 		LiteHook::addFilter('models', function($models) {
 			return array_merge($models, [
-				'memberpress' => new MemberPressCrpyoPayLiteModel()
+				'memberpress_lite' => new MemberPressCrpyoPayLiteModel()
 			]);
 		});
 	}
@@ -66,6 +68,15 @@ add_action('plugins_loaded', function() {
 	load_plugin_textdomain('memberpress-cryptopay', false, basename(__DIR__) . '/languages');
 
 	if (defined('MEPR_VERSION') && (class_exists(Loader::class) || class_exists(LiteLoader::class))) {
+
+		if (class_exists(Loader::class)) {
+			Services::registerAddon('memberpress');
+		}
+
+		if (class_exists(LiteLoader::class)) {
+			LiteServices::registerAddon('memberpress_lite');
+		}
+
 		add_filter('mepr-gateway-paths', 'addGatewayPathToMemberPress', 10, 1);
 		add_filter('mepr-ctrls-paths', 'addGatewayPathToMemberPress', 99, 1);
 		function addGatewayPathToMemberPress($paths) {
