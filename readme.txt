@@ -30,6 +30,9 @@ Review MemberPress: **<a href="https://memberpress.com/plans/pricing/">MemberPre
 
 See **<a href="https://cryptopay.beycanpress.net/register/test-membership/" target="_blank">Demo</a>**
 
+#### Note: 
+Unfortunately, ongoing subscriptions are not supported in the free version. For ongoing subscriptions, we recommend that you purchase CryptoPay premium so that users can renew their subscription.
+
 = Privacy notices =
 
 With the default configuration, this plugin, in itself, does not:

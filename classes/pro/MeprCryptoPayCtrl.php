@@ -49,6 +49,7 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
 
             if ($sub = $txn->subscription()) {
                 $sub->status = MeprSubscription::$active_str;
+                $sub->expires_at = $txn->expires_at;
                 $sub->store();
             }
 

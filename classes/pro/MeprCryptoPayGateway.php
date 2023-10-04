@@ -211,8 +211,102 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
     }
 
     public function display_update_account_form($subscription_id, $errors = array(), $message = "") {
+        $sub = new MeprSubscription($subscription_id);
+        $usr = $sub->user();
+        $prd = $sub->product();
+
+        $txn = new MeprTransaction();
+
+        $mepr_db = new MeprDb();
+        $existsTxn = $mepr_db->get_one_record($mepr_db->transactions, [
+            'user_id' => $usr->ID,
+            'product_id' => $prd->ID,
+            'status' => MeprTransaction::$pending_str,
+        ]);
+        if ($existsTxn) {
+            return $this->show_cryptopay_payment_form((new MeprTransaction($existsTxn->id)));
+        }
+    
+        $txn->user_id    = $usr->ID;
+        $txn->product_id = sanitize_key($prd->ID);
+        // $txn->set_subtotal($_POST['amount']); //Don't do this, it doesn't work right on existing txns
+        $txn->amount     = MeprUtils::format_currency_us_float($sub->price);
+        $txn->tax_amount = MeprUtils::format_currency_us_float($sub->tax_amount);
+        $txn->total      = $txn->amount + $txn->tax_amount;
+        $txn->tax_rate   = MeprUtils::format_currency_us_float($sub->tax_rate);
+        $txn->status     = MeprTransaction::$pending_str;
+        $txn->gateway    = $sub->gateway;
+        $txn->subscription_id = $sub->id;
+        $sub->store();
+        
+        if ($sub->expires_at > date('Y-m-d H:i:s', time())) {
+            $txn->created_at = $sub->expires_at;
+        } else {
+            $txn->created_at = MeprUtils::ts_to_mysql_date(time());
+        }
+    
+        if ($sub->limit_cycles_action != 'lifetime') {
+            $expires_at = $sub->get_expires_at(strtotime($txn->created_at));
+
+            switch($sub->limit_cycles_expires_type) {
+                case 'days':
+                    $expires_at += MeprUtils::days($sub->limit_cycles_expires_after);
+                    break;
+                case 'weeks':
+                    $expires_at += MeprUtils::weeks($sub->limit_cycles_expires_after);
+                    break;
+                case 'months':
+                    $expires_at += MeprUtils::months($sub->limit_cycles_expires_after, strtotime($txn->created_at));
+                    break;
+                case 'years':
+                    $expires_at += MeprUtils::years($sub->limit_cycles_expires_after, strtotime($txn->created_at));
+            }
+            $txn->expires_at = MeprUtils::ts_to_mysql_date($expires_at); 
+        } else {
+            $txn->expires_at = MeprUtils::db_lifetime();
+        }
+
+        $txn->store();
+
+        if ($txn->status == MeprTransaction::$complete_str) {
+            MeprEvent::record('transaction-completed', $txn);
+            if (($sub = $txn->subscription()) && $sub->txn_count > 1) {
+                MeprEvent::record('recurring-transaction-completed', $txn);
+            } elseif(!$sub) {
+                MeprEvent::record('non-recurring-transaction-completed', $txn);
+            }
+        }
+        
+        $this->show_cryptopay_payment_form($txn);
+    }
+
+    private function show_cryptopay_payment_form($txn) {
+        $meprOptions = MeprOptions::fetch();
+        $prd = new MeprProduct($txn->product_id);
+        $amount = MeprUtils::maybe_round_to_minimum_amount($prd->price);
+
+        //$this->mepr_invoice_header($txn);
         ?>
-            <p><b><?php _e('This action is not possible with the payment method used with this Subscription!','memberpress-cryptopay'); ?></b></p>
+        <div class="mp_wrapper mp_payment_form_wrapper">
+            <?php
+                echo Services::startPaymentProcess([
+                    'amount' => $amount,
+                    'currency' => $meprOptions->currency_code,
+                ], 'memberpress', true, [
+                    'MemberPress' => [
+                        'userId' => (int) $txn->user_id,
+                        'productId' => (int) $txn->product_id,
+                        'transactionId' => (int) $txn->id,
+                    ]
+                ]);
+            ?>
+            <style>
+                .cp-modal .waiting-icon svg {
+                    width: 94px!important;
+                    height: 94px!important;
+                }
+            </style>
+        </div>
         <?php
     }
 

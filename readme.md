@@ -17,4 +17,7 @@ Review MemberPress: **<a href="https://memberpress.com/plans/pricing/">MemberPre
 
 See **<a href="https://cryptopay.beycanpress.net/register/test-membership/" target="_blank">Demo</a>**
 
+#### Note: 
+Unfortunately, ongoing subscriptions are not supported in the free version. For ongoing subscriptions, we recommend that you purchase CryptoPay premium so that users can renew their subscription.
+
 Bitcoin, Ethereum, Binance, Solana, Tron, Avalanche, Polygon, MetaMask, TrustWallet, WalletConnect, Phantom Cryptocurrency payments gateway plugin for WordPress & WooCommerce, cryptocurrency wordpress, cryptocurrency woocommerce, cryptocurrency payments, cryptocurrency payments gateway, cryptocurrency payments for woocommerce, cryptocurrency payments for wordpress, bitcoin payment for wordpress, woocommerce crypto payments, wordpress crypto payments, wordPress cryptocurrency payment plugin, woocommerce cryptocurrency payment gateway, cryptocurrency payment gateway for woocommerce, crypto payments woocommerce, accept cryptocurrency payments

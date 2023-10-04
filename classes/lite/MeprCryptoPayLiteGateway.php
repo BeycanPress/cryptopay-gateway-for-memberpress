@@ -212,7 +212,7 @@ class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
 
     public function display_update_account_form($subscription_id, $errors = array(), $message = "") {
         ?>
-            <p><b><?php _e('This action is not possible with the payment method used with this Subscription!','memberpress-cryptopay'); ?></b></p>
+            <p><b><?php echo esc_html__('This action is not possible with the payment method used with this Subscription!','memberpress-cryptopay'); ?></b></p>
         <?php
     }
 
