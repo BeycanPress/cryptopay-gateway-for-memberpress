@@ -288,17 +288,16 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
         $meprOptions = MeprOptions::fetch();
         $prd = new MeprProduct($txn->product_id);
         $amount = MeprUtils::maybe_round_to_minimum_amount($prd->price);
-        if (isset($this->settings->cryptopay_theme)) {
-            $cryptopayTheme = trim($this->settings->cryptopay_theme);
-        } else {
-            $cryptopayTheme = 'default';
-        }
-        //$this->mepr_invoice_header($txn);
 
-        Hook::addFilter('theme_memberpress', function() use ($cryptopayTheme) {
-            return $cryptopayTheme;
+        Hook::addFilter('theme', function() {
+            if (isset($this->settings->cryptopay_theme)) {
+                return trim($this->settings->cryptopay_theme);
+            } else {
+                return 'default';
+            }
         });
 
+        //$this->mepr_invoice_header($txn);
         ?>
         <div class="mp_wrapper mp_payment_form_wrapper">
             <?php

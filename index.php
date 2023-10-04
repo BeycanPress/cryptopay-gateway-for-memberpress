@@ -3,7 +3,7 @@
 /**
  * Plugin Name: MemberPress - CryptoPay Gateway
  * Version:     1.0.0
- * Plugin URI:  https://beycanpress.com/cryptopay
+ * Plugin URI:  https://beycanpress.com/cryptopay/
  * Description: Adds Cryptocurrency payment gateway (CryptoPay) for MemberPress.
  * Author:      BeycanPress
  * Author URI:  https://beycanpress.com
