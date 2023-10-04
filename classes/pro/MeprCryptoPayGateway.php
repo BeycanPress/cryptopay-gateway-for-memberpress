@@ -14,6 +14,11 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
     public $name;
 
     /**
+     * @var string
+     */
+    public $key;
+
+    /**
      * @var object
      */
 	public $settings;
