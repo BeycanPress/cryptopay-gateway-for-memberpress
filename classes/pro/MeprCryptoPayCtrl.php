@@ -36,7 +36,7 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
             return $data;
         });
         
-        Hook::addFilter('payment_finished_memberpress', function(object $data) {
+        Hook::addAction('payment_finished_memberpress', function(object $data) {
             $txn = new MeprTransaction($data->params->MemberPress->transactionId);
             $txn->status = $data->status ? MeprTransaction::$complete_str : MeprTransaction::$failed_str;
 
