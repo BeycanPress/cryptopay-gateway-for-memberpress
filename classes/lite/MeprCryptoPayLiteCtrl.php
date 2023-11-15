@@ -23,7 +23,7 @@ class MeprCryptoPayLiteCtrl extends MeprBaseCtrl
             );
         }
 
-        Hook::addAction('init_memberpress_lite', function(object $data) {
+        Hook::addFilter('init_memberpress_lite', function(object $data) {
             if (!(new MeprTransaction())->get_one($data->params->MemberPress->transactionId)) {
                 Response::error(esc_html__('The MemberPress transaction not found!', 'memberpress-cryptopay'), 'TXN_NOT_FOUND', [
                     'redirect' => 'reload'
@@ -31,12 +31,12 @@ class MeprCryptoPayLiteCtrl extends MeprBaseCtrl
             }
         });
 
-        Hook::addAction('before_payment_started_memberpress_lite', function(object $data) {
+        Hook::addFilter('before_payment_started_memberpress_lite', function(object $data) {
             $data->order->id = $data->params->MemberPress->transactionId;
             return $data;
         });
         
-        Hook::addAction('payment_finished_memberpress_lite', function(object $data) {
+        Hook::addFilter('payment_finished_memberpress_lite', function(object $data) {
             $txn = new MeprTransaction($data->params->MemberPress->transactionId);
             $txn->status = $data->status ? MeprTransaction::$complete_str : MeprTransaction::$failed_str;
 
