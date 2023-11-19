@@ -29,6 +29,8 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
                     'redirect' => 'reload'
                 ]);
             }
+
+            return $data;
         });
 
         Hook::addFilter('before_payment_started_memberpress', function(object $data) {
