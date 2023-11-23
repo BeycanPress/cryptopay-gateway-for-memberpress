@@ -286,8 +286,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
 
     private function show_cryptopay_payment_form($txn) {
         $meprOptions = MeprOptions::fetch();
-        $prd = new MeprProduct($txn->product_id);
-        $amount = MeprUtils::maybe_round_to_minimum_amount($prd->price);
+        $amount = MeprUtils::maybe_round_to_minimum_amount($txn->total);
 
         Hook::addFilter('theme', function() {
             if (isset($this->settings->cryptopay_theme)) {

@@ -129,16 +129,9 @@ class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
      */
     public function display_payment_form($amount, $user, $productId, $transactionId)
     {
-        $coupon = false;
         $meprOptions = MeprOptions::fetch();
-        $prd = new MeprProduct($productId);
         $txn = new MeprTransaction($productId);
-
-        //Artifically set the price of the $prd in case a coupon was used
-        if ($prd->price != $amount) {
-            $coupon = true;
-            $prd->price = $amount;
-        }
+        $amount = MeprUtils::maybe_round_to_minimum_amount($txn->total);
 
         //$this->mepr_invoice_header($txn);
         ?>
