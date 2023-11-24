@@ -130,15 +130,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
      */
     public function display_payment_form($amount, $user, $productId, $transactionId)
     {
-        $mepr_db = new MeprDb();
-        $txn = new MeprTransaction($transactionId);
-        // bu sanırım update bölümünde geçerliydi bu yüzden test edilecek
-        // $txn = $mepr_db->get_one_record($mepr_db->transactions, [
-        //     'user_id' => $user->ID,
-        //     'product_id' => $productId,
-        //     'status' => MeprTransaction::$pending_str,
-        // ]);
-        $this->show_cryptopay_payment_form($txn);
+        $this->show_cryptopay_payment_form(new MeprTransaction($transactionId));
     }
 
     /**
@@ -285,7 +277,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
         $this->show_cryptopay_payment_form($txn);
     }
 
-    private function show_cryptopay_payment_form($txn, $amount = null) {
+    private function show_cryptopay_payment_form($txn) {
         $meprOptions = MeprOptions::fetch();
         $amount = MeprUtils::maybe_round_to_minimum_amount($txn->total);
 
