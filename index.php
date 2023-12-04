@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: MemberPress - CryptoPay Gateway
- * Version:     1.0.0
+ * Version:     1.0.1
  * Plugin URI:  https://beycanpress.com/cryptopay/
  * Description: Adds Cryptocurrency payment gateway (CryptoPay) for MemberPress.
  * Author:      BeycanPress LLC
@@ -12,7 +12,7 @@
  * Text Domain: memberpress-cryptopay
  * Tags: Cryptopay, Cryptocurrency, WooCommerce, WordPress, MetaMask, Trust, Binance, Wallet, Ethereum, Bitcoin, Binance smart chain, Payment, Plugin, Gateway, Moralis, Converter, API, coin market cap, CMC
  * Requires at least: 5.0
- * Tested up to: 6.3
+ * Tested up to: 6.4.1
  * Requires PHP: 7.4
 */
 
@@ -24,7 +24,7 @@ use \BeycanPress\CryptoPayLite\Services as LiteServices;
 use \BeycanPress\CryptoPayLite\PluginHero\Hook as LiteHook;
 
 define('MEMBERPRESS_CRYPTOPAY_FILE', __FILE__);
-define('MEMBERPRESS_CRYPTOPAY_VERSION', '1.0.0');
+define('MEMBERPRESS_CRYPTOPAY_VERSION', '1.0.1');
 define('MEMBERPRESS_CRYPTOPAY_URL', plugin_dir_url(__FILE__));
 define('MEMBERPRESS_CRYPTOPAY_DIR', plugin_dir_path(__FILE__));
 
