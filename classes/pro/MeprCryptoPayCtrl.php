@@ -14,7 +14,6 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
         if (is_admin()) {
             new TransactionPage(
                 esc_html__('MemberPress transactions', 'cryptopay'),
-                'memberpress_transactions',
                 'memberpress',
                 9,
                 [],
