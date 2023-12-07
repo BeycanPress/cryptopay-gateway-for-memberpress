@@ -193,7 +193,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
             <tr>
                 <td><?php echo esc_html__('Theme:', 'memberpress-cryptopay'); ?></td>
                 <td>
-                    <select name="<?php echo $mepr_options->integrations_str; ?>[<?php echo $this->id;?>][cryptopay_theme]" class="mepr-auto-trim">
+                    <select name="<?php echo esc_attr($mepr_options->integrations_str); ?>[<?php echo esc_attr($this->id);?>][cryptopay_theme]" class="mepr-auto-trim">
                         <option value="default" <?php echo esc_attr($cryptopayTheme == 'default' ? 'selected' : '') ?>><?php echo esc_html__('Default', 'memberpress-cryptopay') ?></option>
                         <option value="dark" <?php echo esc_attr($cryptopayTheme == 'dark' ? 'selected' : '') ?>><?php echo esc_html__('Dark', 'memberpress-cryptopay') ?></option>
                     </select>
