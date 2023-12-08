@@ -67,7 +67,18 @@ add_action('plugins_loaded', function() {
 
 	load_plugin_textdomain('memberpress-cryptopay', false, basename(__DIR__) . '/languages');
 
-	if (defined('MEPR_VERSION') && (class_exists(Loader::class) || class_exists(LiteLoader::class))) {
+	if (!defined('MEPR_VERSION')) {
+		add_action('admin_notices', function () {
+			?>
+				<div class="notice notice-error">
+					<p><?php echo sprintf(esc_html__('MemberPress - CryptoPay Gateway: This plugin requires MemberPress to work. You can buy MemberPress by %s.', 'memberpress-cryptopay'), '<a href="https://memberpress.com/" target="_blank">'.esc_html__('clicking here', 'memberpress-cryptopay').'</a>'); ?></p>
+				</div>
+			<?php
+		});
+		return;
+	}
+
+	if ((class_exists(Loader::class) || class_exists(LiteLoader::class))) {
 
 		if (class_exists(Loader::class)) {
 			Services::registerAddon('memberpress');
