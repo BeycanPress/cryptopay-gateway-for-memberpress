@@ -186,7 +186,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
         if (isset($this->settings->cryptopay_theme)) {
             $cryptopayTheme = trim($this->settings->cryptopay_theme);
         } else {
-            $cryptopayTheme = 'default';
+            $cryptopayTheme = 'light';
         }
         ?>
         <table >
@@ -194,7 +194,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
                 <td><?php echo esc_html__('Theme:', 'memberpress-cryptopay'); ?></td>
                 <td>
                     <select name="<?php echo esc_attr($mepr_options->integrations_str); ?>[<?php echo esc_attr($this->id);?>][cryptopay_theme]" class="mepr-auto-trim">
-                        <option value="default" <?php echo esc_attr($cryptopayTheme == 'default' ? 'selected' : '') ?>><?php echo esc_html__('Default', 'memberpress-cryptopay') ?></option>
+                        <option value="light" <?php echo esc_attr($cryptopayTheme == 'light' ? 'selected' : '') ?>><?php echo esc_html__('Light', 'memberpress-cryptopay') ?></option>
                         <option value="dark" <?php echo esc_attr($cryptopayTheme == 'dark' ? 'selected' : '') ?>><?php echo esc_html__('Dark', 'memberpress-cryptopay') ?></option>
                     </select>
                 </td>
