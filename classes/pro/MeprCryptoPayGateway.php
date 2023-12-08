@@ -285,7 +285,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
             if (isset($this->settings->cryptopay_theme)) {
                 return trim($this->settings->cryptopay_theme);
             } else {
-                return 'default';
+                return 'light';
             }
         });
 
