@@ -1,15 +1,25 @@
 <?php
 
-if (!defined('ABSPATH'))
-    die;
+declare(strict_types=1);
+
+defined('ABSPATH') || exit;
+
+// @phpcs:disable PSR1.Files.SideEffects
+// @phpcs:disable Generic.Files.LineLength
+// @phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
 
 use BeycanPress\Http\Response;
 use BeycanPress\CryptoPay\PluginHero\Hook;
 use BeycanPress\CryptoPay\Pages\TransactionPage;
+use BeycanPress\CryptoPay\Types\Data\PaymentDataType;
 
+// @phpcs:ignore
 class MeprCryptoPayCtrl extends MeprBaseCtrl
 {
-    public function load_hooks() 
+    /**
+     * @return void
+     */
+    public function load_hooks(): void
     {
         if (is_admin()) {
             new TransactionPage(
@@ -22,8 +32,8 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
             );
         }
 
-        Hook::addFilter('init_memberpress', function(object $data) {
-            if (!(new MeprTransaction())->get_one($data->params->MemberPress->transactionId)) {
+        Hook::addFilter('init_memberpress', function (PaymentDataType $data) {
+            if (!(new MeprTransaction())->get_one($data->getParams()->get('transactionId'))) {
                 Response::error(esc_html__('The MemberPress transaction not found!', 'memberpress-cryptopay'), 'TXN_NOT_FOUND', [
                     'redirect' => 'reload'
                 ]);
@@ -32,16 +42,16 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
             return $data;
         });
 
-        Hook::addFilter('before_payment_started_memberpress', function(object $data) {
-            $data->order->id = $data->params->MemberPress->transactionId;
+        Hook::addFilter('before_payment_started_memberpress', function (PaymentDataType $data) {
+            $data->getOrder()->setId($data->getParams()->get('transactionId'));
             return $data;
         });
-        
-        Hook::addAction('payment_finished_memberpress', function(object $data) {
-            $txn = new MeprTransaction($data->params->MemberPress->transactionId);
-            $txn->status = $data->status ? MeprTransaction::$complete_str : MeprTransaction::$failed_str;
 
-            if (!$data->status) {
+        Hook::addAction('payment_finished_memberpress', function (PaymentDataType $data): void {
+            $txn = new MeprTransaction($data->getParams()->get('transactionId'));
+            $txn->status = $data->getStatus() ? MeprTransaction::$complete_str : MeprTransaction::$failed_str;
+
+            if (!$data->getStatus()) {
                 MeprUtils::send_failed_txn_notices($txn);
             }
 
@@ -52,16 +62,17 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
             }
 
             $txn->store();
+
             MeprUtils::send_transaction_receipt_notices($txn);
         });
 
-        Hook::addFilter('payment_redirect_urls_memberpress', function(object $data) {
+        Hook::addFilter('payment_redirect_urls_memberpress', function (PaymentDataType $data) {
             $meprOptions = MeprOptions::fetch();
-            $txn = new MeprTransaction($data->params->MemberPress->transactionId);
+            $txn = new MeprTransaction($data->getParams()->get('transactionId'));
             $prd = $txn->product();
             $query_params = [
-                'membership' => sanitize_title($prd->post_title), 
-                'trans_num' => $txn->trans_num, 
+                'membership' => sanitize_title($prd->post_title),
+                'trans_num' => $txn->trans_num,
                 'membership_id' => $prd->ID,
                 'subscr_id' => $txn->subscription_id
             ];
@@ -70,6 +81,5 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
                 'failed' => $txn->checkout_url()
             ];
         });
-
     }
 }

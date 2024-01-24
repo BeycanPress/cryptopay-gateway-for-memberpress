@@ -1,11 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
+defined('ABSPATH') || exit;
+
+// @phpcs:disable PSR1.Files.SideEffects
+
 use BeycanPress\CryptoPay\Models\AbstractTransaction;
 
-class MemberPressCrpyoPayModel extends AbstractTransaction 
+// @phpcs:ignore
+class MemberPressCrpyoPayModel extends AbstractTransaction
 {
-    public $addon = 'memberpress';
-    
+    public string $addon = 'memberpress';
+
+    /**
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct('memberpress_transaction');

@@ -1,0 +1,103 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: MemberPress - CryptoPay Gateway\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-24 11:47+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.6; wp-6.4.2\n"
+"X-Domain: memberpress-cryptopay"
+
+#. Description of the plugin
+msgid "Adds Cryptocurrency payment gateway (CryptoPay) for MemberPress."
+msgstr ""
+
+#. Author of the plugin
+msgid "BeycanPress LLC"
+msgstr ""
+
+#: memberpress-cryptopay-gateway.php:74 memberpress-cryptopay-gateway.php:119
+msgid "clicking here"
+msgstr ""
+
+#: classes/pro/MeprCryptoPayGateway.php:29
+#: classes/pro/MeprCryptoPayGateway.php:74
+msgid "CryptoPay"
+msgstr ""
+
+#: classes/lite/MeprCryptoPayLiteGateway.php:28
+#: classes/lite/MeprCryptoPayLiteGateway.php:73
+msgid "CryptoPay Lite"
+msgstr ""
+
+#: classes/pro/MeprCryptoPayGateway.php:198
+msgid "Dark"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://beycanpress.com"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://beycanpress.com/cryptopay/"
+msgstr ""
+
+#: classes/pro/MeprCryptoPayGateway.php:197
+msgid "Light"
+msgstr ""
+
+#. Name of the plugin
+msgid "MemberPress - CryptoPay Gateway"
+msgstr ""
+
+#: memberpress-cryptopay-gateway.php:119
+#, php-format
+msgid ""
+"MemberPress - CryptoPay Gateway: This plugin is an extra feature plugin so "
+"it cannot do anything on its own. It needs CryptoPay to work. You can buy "
+"CryptoPay by %s."
+msgstr ""
+
+#: memberpress-cryptopay-gateway.php:74
+#, php-format
+msgid ""
+"MemberPress - CryptoPay Gateway: This plugin requires MemberPress to work. "
+"You can buy MemberPress by %s."
+msgstr ""
+
+#: classes/lite/MeprCryptoPayLiteCtrl.php:16
+msgid "MemberPress transactions"
+msgstr ""
+
+#: classes/pro/MeprCryptoPayGateway.php:32
+#: classes/pro/MeprCryptoPayGateway.php:75
+msgid "Pay with cryptocurrencies via CryptoPay"
+msgstr ""
+
+#: classes/lite/MeprCryptoPayLiteGateway.php:31
+#: classes/lite/MeprCryptoPayLiteGateway.php:74
+msgid "Pay with cryptocurrencies via CryptoPay Lite"
+msgstr ""
+
+#: classes/lite/MeprCryptoPayLiteCtrl.php:27
+#: classes/pro/MeprCryptoPayCtrl.php:27
+msgid "The MemberPress transaction not found!"
+msgstr ""
+
+#: classes/pro/MeprCryptoPayGateway.php:194
+msgid "Theme:"
+msgstr ""
+
+#: classes/lite/MeprCryptoPayLiteGateway.php:211
+msgid ""
+"This action is not possible with the payment method used with this "
+"Subscription!"
+msgstr ""

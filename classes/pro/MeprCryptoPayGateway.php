@@ -1,30 +1,99 @@
 <?php
 
-if (!defined('ABSPATH'))
-    die;
+declare(strict_types=1);
 
+defined('ABSPATH') || exit;
+
+// @phpcs:disable PSR1.Files.SideEffects
+// @phpcs:disable Generic.Files.InlineHTML
+// @phpcs:disable Generic.Files.LineLength
+// @phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+// @phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint
+
+use BeycanPress\CryptoPay\Helpers;
+use BeycanPress\CryptoPay\Payment;
 use BeycanPress\CryptoPay\Settings;
-use BeycanPress\CryptoPay\Services;
 use BeycanPress\CryptoPay\PluginHero\Hook;
 
-class MeprCryptoPayGateway extends MeprBaseRealGateway 
+// @phpcs:ignore
+class MeprCryptoPayGateway extends MeprBaseRealGateway
 {
     /**
      * @var string
      */
+    // @phpcs:ignore
+    public $id;
+
+    /**
+     * @var string
+     */
+    // @phpcs:ignore
+    public $label;
+
+    /**
+     * @var bool
+     */
+    // @phpcs:ignore
+    public $use_label;
+
+    /**
+     * @var bool
+     */
+    // @phpcs:ignore
+    public $use_icon;
+
+    /**
+     * @var bool
+     */
+    // @phpcs:ignore
+    public $use_desc;
+
+    /**
+     * @var string
+     */
+    // @phpcs:ignore
     public $name;
 
     /**
      * @var string
      */
+    // @phpcs:ignore
     public $key;
+
+    /**
+     * @var string
+     */
+    // @phpcs:ignore
+    public $icon;
+
+    /**
+     * @var string
+     */
+    // @phpcs:ignore
+    public $desc;
+
+    /**
+     * @var bool
+     */
+    // @phpcs:ignore
+    public $has_spc_form;
+
+    /**
+     * @var array<string>
+     */
+    // @phpcs:ignore
+    public $capabilities;
 
     /**
      * @var object
      */
-	public $settings;
+    // @phpcs:ignore
+    public $settings;
 
-    public function __construct() 
+    /**
+     * @return void
+     */
+    public function __construct()
     {
         $this->name = __('CryptoPay', 'memberpress-cryptopay');
         $this->key  = 'cryptopay';
@@ -42,25 +111,26 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
     /**
      * @return string
      */
-    public function spc_payment_fields()
+    public function spc_payment_fields(): string
     {
         return $this->desc;
     }
 
     /**
-     * @param array $settings
+     * @param array<mixed> $settings
      * @return void
      */
-    public function load($settings)
+    public function load(array $settings): void
     {
         $this->settings = (object) $settings;
         $this->set_defaults();
     }
 
     /**
-     *  Set default plugin settings
+     * Set default plugin settings
+     * @return void
      */
-    protected function set_defaults() 
+    protected function set_defaults(): void
     {
         if (!isset($this->settings)) {
             $this->settings = [];
@@ -90,19 +160,34 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
     /**
      * @return void
      */
-    public function enqueue_payment_form_scripts() 
+    public function enqueue_payment_form_scripts(): void
     {
-        wp_enqueue_style('mepr-cryptopay-form', MEMBERPRESS_CRYPTOPAY_URL . '/assets/css/main.css', [], MEMBERPRESS_CRYPTOPAY_VERSION);
+        wp_enqueue_style(
+            'mepr-cryptopay-form',
+            MEMBERPRESS_CRYPTOPAY_URL . '/assets/css/main.css',
+            [],
+            MEMBERPRESS_CRYPTOPAY_VERSION
+        );
     }
 
     // Process payment
 
-    public function process_signup_form($txn) {
+    /**
+     * @param MeprTransaction $txn
+     * @return void
+     */
+    public function process_signup_form($txn): void
+    {
         // Running first
         return;
     }
 
-    public function validate_payment_form($errors) {
+    /**
+     * @param array<mixed> $errors
+     * @return void
+     */
+    public function validate_payment_form($errors): void
+    {
         // Running second
         return;
     }
@@ -111,7 +196,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
      * @param MeprTransaction $txn
      * @return void
      */
-    public function process_payment_form($txn) 
+    public function process_payment_form($txn): void
     {
         if ($txn->amount <= 0.00) {
             MeprTransaction::create_free_transaction($txn);
@@ -128,7 +213,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
      * @param int $transactionId
      * @return void
      */
-    public function display_payment_form($amount, $user, $productId, $transactionId)
+    public function display_payment_form($amount, $user, $productId, $transactionId): void
     {
         $this->show_cryptopay_payment_form(new MeprTransaction($transactionId));
     }
@@ -137,14 +222,14 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
      * @param MeprTransaction $txn
      * @return void
      */
-    private function mepr_invoice_header($txn)
+    private function mepr_invoice_header($txn): void
     {
         $order_bumps = [];
         try {
             $orderBumpProductIds = isset($_GET['obs']) && is_array($_GET['obs']) ? array_map('intval', $_GET['obs']) : [];
             $orderBumpProducts = MeprCheckoutCtrl::get_order_bump_products($txn->product_id, $orderBumpProductIds);
 
-            foreach($orderBumpProducts as $product) {
+            foreach ($orderBumpProducts as $product) {
                 list($transaction, $subscription) = MeprCheckoutCtrl::prepare_transaction(
                     $product,
                     0,
@@ -156,7 +241,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
 
                 $order_bumps[] = [$product, $transaction, $subscription];
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // ignore exception
         }
 
@@ -169,19 +254,36 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
 
     // Not usings
 
-    public function is_test_mode() {
+    /**
+     * @return bool
+     */
+    public function is_test_mode(): bool
+    {
         return (bool) Settings::get('testnet');
     }
 
-    public function force_ssl() {
+    /**
+     * @return bool
+     */
+    public function force_ssl(): bool
+    {
         return false;
     }
 
-    public function process_payment($txn) {
+    /**
+     * @param MeprTransaction $txn
+     * @return void
+     */
+    public function process_payment($txn): void
+    {
         return;
     }
 
-    public function display_options_form() { 
+    /**
+     * @return void
+     */
+    public function display_options_form(): void
+    {
         $mepr_options = MeprOptions::fetch();
         if (isset($this->settings->cryptopay_theme)) {
             $cryptopayTheme = trim($this->settings->cryptopay_theme);
@@ -203,11 +305,23 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
         <?php
     }
 
-    public function validate_options_form($errors) {
+    /**
+     * @param array<mixed> $errors
+     * @return array<mixed>
+     */
+    public function validate_options_form($errors): array
+    {
         return $errors;
     }
 
-    public function display_update_account_form($subscription_id, $errors = array(), $message = "") {
+    /**
+     * @param int $subscription_id
+     * @param array<mixed> $errors
+     * @param string $message
+     * @return void
+     */
+    public function display_update_account_form($subscription_id, $errors = array(), $message = ""): void
+    {
         $sub = new MeprSubscription($subscription_id);
         $usr = $sub->user();
         $prd = $sub->product();
@@ -221,9 +335,10 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
             'status' => MeprTransaction::$pending_str,
         ]);
         if ($existsTxn) {
-            return $this->show_cryptopay_payment_form((new MeprTransaction($existsTxn->id)));
+            $this->show_cryptopay_payment_form((new MeprTransaction($existsTxn->id)));
+            return;
         }
-    
+
         $txn->user_id    = $usr->ID;
         $txn->product_id = sanitize_key($prd->ID);
         // $txn->set_subtotal($_POST['amount']); //Don't do this, it doesn't work right on existing txns
@@ -235,17 +350,17 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
         $txn->gateway    = $sub->gateway;
         $txn->subscription_id = $sub->id;
         $sub->store();
-        
+
         if ($sub->expires_at > date('Y-m-d H:i:s', time())) {
             $txn->created_at = $sub->expires_at;
         } else {
             $txn->created_at = MeprUtils::ts_to_mysql_date(time());
         }
-    
+
         if ($sub->limit_cycles_action != 'lifetime') {
             $expires_at = $sub->get_expires_at(strtotime($txn->created_at));
 
-            switch($sub->limit_cycles_expires_type) {
+            switch ($sub->limit_cycles_expires_type) {
                 case 'days':
                     $expires_at += MeprUtils::days($sub->limit_cycles_expires_after);
                     break;
@@ -258,7 +373,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
                 case 'years':
                     $expires_at += MeprUtils::years($sub->limit_cycles_expires_after, strtotime($txn->created_at));
             }
-            $txn->expires_at = MeprUtils::ts_to_mysql_date($expires_at); 
+            $txn->expires_at = MeprUtils::ts_to_mysql_date($expires_at);
         } else {
             $txn->expires_at = MeprUtils::db_lifetime();
         }
@@ -269,19 +384,24 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
             MeprEvent::record('transaction-completed', $txn);
             if (($sub = $txn->subscription()) && $sub->txn_count > 1) {
                 MeprEvent::record('recurring-transaction-completed', $txn);
-            } elseif(!$sub) {
+            } elseif (!$sub) {
                 MeprEvent::record('non-recurring-transaction-completed', $txn);
             }
         }
-        
+
         $this->show_cryptopay_payment_form($txn);
     }
 
-    private function show_cryptopay_payment_form($txn) {
+    /**
+     * @param MeprTransaction $txn
+     * @return void
+     */
+    private function show_cryptopay_payment_form($txn): void
+    {
         $meprOptions = MeprOptions::fetch();
         $amount = MeprUtils::maybe_round_to_minimum_amount($txn->total);
 
-        Hook::addFilter('theme', function() {
+        Hook::addFilter('theme', function () {
             if (isset($this->settings->cryptopay_theme)) {
                 return trim($this->settings->cryptopay_theme);
             } else {
@@ -293,16 +413,15 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
         ?>
         <div class="mp_wrapper mp_payment_form_wrapper">
             <?php
-                echo Services::startPaymentProcess([
+                echo (new Payment('memberpress'))
+                ->setOrder(OrderType::fromArray([
                     'amount' => $amount,
                     'currency' => $meprOptions->currency_code,
-                ], 'memberpress', true, [
-                    'MemberPress' => [
-                        'userId' => (int) $txn->user_id,
-                        'productId' => (int) $txn->product_id,
-                        'transactionId' => (int) $txn->id,
-                    ]
-                ]);
+                ]))
+                ->setParams(ParamsType::fromArray([
+                    'transactionId' => (int) $txn->id,
+                ]))
+                ->html(loading:true);
             ?>
             <style>
                 .cp-modal .waiting-icon svg {
@@ -317,83 +436,174 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
         <?php
     }
 
-    public function validate_update_account_form($errors = array()) {
+    /**
+     * @param array<mixed> $errors
+     * @return void
+     */
+    public function validate_update_account_form($errors = array()): void
+    {
         return;
     }
 
-    public function process_update_account_form($subscription_id) {
+    /**
+     * @param int $subscription_id
+     * @return void
+     */
+    public function process_update_account_form($subscription_id): void
+    {
         return;
     }
 
-    public function record_payment() {
+    /**
+     * @return void
+     */
+    public function record_payment(): void
+    {
         return;
     }
 
-    public function process_refund(MeprTransaction $txn) {
+    /**
+     * @param MeprTransaction $txn
+     * @return void
+     */
+    public function process_refund($txn): void
+    {
         return;
     }
 
-    public function record_refund() {
+    /**
+     * @return void
+     */
+    public function record_refund(): void
+    {
         return;
     }
 
-    public function record_subscription_payment() {
+    /**
+     * @return void
+     */
+    public function record_subscription_payment(): void
+    {
         return;
     }
 
-    public function record_payment_failure() {
+    /**
+     * @return void
+     */
+    public function record_payment_failure(): void
+    {
         return;
     }
 
-    public function process_trial_payment($txn) {
+    /**
+     * @param MeprTransaction $txn
+     * @return void
+     */
+    public function process_trial_payment($txn): void
+    {
         return;
     }
 
-    public function record_trial_payment($txn) {
+    /**
+     * @param MeprTransaction $txn
+     * @return void
+     */
+    public function record_trial_payment($txn): void
+    {
         return;
     }
 
-    public function process_create_subscription($txn) {
+    /**
+     * @param MeprTransaction $txn
+     * @return void
+     */
+    public function process_create_subscription($txn): void
+    {
         return;
     }
 
-    public function record_create_subscription() {
+    /**
+     * @return void
+     */
+    public function record_create_subscription(): void
+    {
         return;
     }
 
-    public function process_update_subscription($subscription_id) {
+    /**
+     * @param int $subscription_id
+     * @return void
+     */
+    public function process_update_subscription($subscription_id): void
+    {
         return;
     }
 
-    public function record_update_subscription() {
+    /**
+     * @return void
+     */
+    public function record_update_subscription(): void
+    {
         return;
     }
 
-    public function process_suspend_subscription($subscription_id) {
+    /**
+     * @param int $subscription_id
+     * @return void
+     */
+    public function process_suspend_subscription($subscription_id): void
+    {
         return;
     }
 
-    public function record_suspend_subscription() {
+    /**
+     * @return void
+     */
+    public function record_suspend_subscription(): void
+    {
         return;
     }
 
-    public function process_resume_subscription($subscription_id) {
+    /**
+     * @param int $subscription_id
+     * @return void
+     */
+    public function process_resume_subscription($subscription_id): void
+    {
         return;
     }
 
-    public function record_resume_subscription() {
+    /**
+     * @return void
+     */
+    public function record_resume_subscription(): void
+    {
         return;
     }
 
-    public function process_cancel_subscription($subscription_id) {
+    /**
+     * @param int $subscription_id
+     * @return void
+     */
+    public function process_cancel_subscription($subscription_id): void
+    {
         return;
     }
 
-    public function record_cancel_subscription() {
+    /**
+     * @return void
+     */
+    public function record_cancel_subscription(): void
+    {
         return;
     }
 
-    public function display_payment_page($txn) {
+    /**
+     * @param MeprTransaction $txn
+     * @return void
+     */
+    public function display_payment_page($txn): void
+    {
         return;
     }
 }
