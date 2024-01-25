@@ -26,7 +26,7 @@ defined('ABSPATH') || exit;
 */
 
 use BeycanPress\CryptoPay\Loader;
-use BeycanPress\CryptoPay\Services;
+use BeycanPress\CryptoPay\Helpers;
 use BeycanPress\CryptoPay\PluginHero\Hook;
 use BeycanPress\CryptoPayLite\Loader as LiteLoader;
 use BeycanPress\CryptoPayLite\Services as LiteServices;
@@ -93,7 +93,7 @@ add_action('plugins_loaded', function (): void {
 
     if ((class_exists(Loader::class) || class_exists(LiteLoader::class))) {
         if (class_exists(Loader::class)) {
-            Services::registerAddon('memberpress');
+            Helpers::registerIntegration('memberpress');
         }
 
         if (class_exists(LiteLoader::class)) {
