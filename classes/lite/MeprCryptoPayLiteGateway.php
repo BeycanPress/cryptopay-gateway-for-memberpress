@@ -95,7 +95,7 @@ class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
     {
         $this->name = __('CryptoPay Lite', 'memberpress-cryptopay');
         $this->key  = 'cryptopay_lite';
-        $this->icon = MEMBERPRESS_CRYPTOPAY_URL . '/assets/images/icon.png';
+        $this->icon = MEMBERPRESS_CRYPTOPAY_URL . 'assets/images/icon.png';
         $this->desc = __('Pay with cryptocurrencies via CryptoPay Lite', 'memberpress-cryptopay');
         $this->set_defaults();
         $this->has_spc_form = true;
@@ -138,7 +138,7 @@ class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
             [
                 'id' => $this->generate_id(),
                 'gateway' => __CLASS__,
-                'icon' => MEMBERPRESS_CRYPTOPAY_URL . '/assets/images/icon.png',
+                'icon' => MEMBERPRESS_CRYPTOPAY_URL . 'assets/images/icon.png',
                 'label' => __('CryptoPay Lite', 'memberpress-cryptopay'),
                 'desc' => __('Pay with cryptocurrencies via CryptoPay Lite', 'memberpress-cryptopay'),
                 'use_label' => true,

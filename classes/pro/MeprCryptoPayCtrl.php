@@ -27,13 +27,12 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
                 'memberpress',
                 9,
                 [],
-                true,
                 ['updatedAt']
             );
         }
 
         Hook::addFilter('init_memberpress', function (PaymentDataType $data) {
-            if (!(new MeprTransaction())->get_one($data->getParams()->get('transactionId'))) {
+            if (!(new MeprTransaction())->get_one($data->getOrder()->getId())) {
                 Response::error(esc_html__('The MemberPress transaction not found!', 'memberpress-cryptopay'), 'TXN_NOT_FOUND', [
                     'redirect' => 'reload'
                 ]);
@@ -42,13 +41,8 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
             return $data;
         });
 
-        Hook::addFilter('before_payment_started_memberpress', function (PaymentDataType $data) {
-            $data->getOrder()->setId($data->getParams()->get('transactionId'));
-            return $data;
-        });
-
         Hook::addAction('payment_finished_memberpress', function (PaymentDataType $data): void {
-            $txn = new MeprTransaction($data->getParams()->get('transactionId'));
+            $txn = new MeprTransaction($data->getOrder()->getId());
             $txn->status = $data->getStatus() ? MeprTransaction::$complete_str : MeprTransaction::$failed_str;
 
             if (!$data->getStatus()) {
@@ -68,7 +62,7 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
 
         Hook::addFilter('payment_redirect_urls_memberpress', function (PaymentDataType $data) {
             $meprOptions = MeprOptions::fetch();
-            $txn = new MeprTransaction($data->getParams()->get('transactionId'));
+            $txn = new MeprTransaction($data->getOrder()->getId());
             $prd = $txn->product();
             $query_params = [
                 'membership' => sanitize_title($prd->post_title),

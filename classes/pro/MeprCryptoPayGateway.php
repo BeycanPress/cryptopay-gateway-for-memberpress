@@ -10,10 +10,11 @@ defined('ABSPATH') || exit;
 // @phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
 // @phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint
 
-use BeycanPress\CryptoPay\Helpers;
 use BeycanPress\CryptoPay\Payment;
 use BeycanPress\CryptoPay\Settings;
 use BeycanPress\CryptoPay\PluginHero\Hook;
+use BeycanPress\CryptoPay\Types\Order\OrderType;
+use BeycanPress\CryptoPay\Types\Transaction\ParamsType;
 
 // @phpcs:ignore
 class MeprCryptoPayGateway extends MeprBaseRealGateway
@@ -97,7 +98,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
     {
         $this->name = __('CryptoPay', 'memberpress-cryptopay');
         $this->key  = 'cryptopay';
-        $this->icon = MEMBERPRESS_CRYPTOPAY_URL . '/assets/images/icon.png';
+        $this->icon = MEMBERPRESS_CRYPTOPAY_URL . 'assets/images/icon.png';
         $this->desc = __('Pay with cryptocurrencies via CryptoPay', 'memberpress-cryptopay');
         $this->set_defaults();
         $this->has_spc_form = true;
@@ -120,7 +121,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
      * @param array<mixed> $settings
      * @return void
      */
-    public function load(array $settings): void
+    public function load($settings): void
     {
         $this->settings = (object) $settings;
         $this->set_defaults();
@@ -140,7 +141,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
             [
                 'id' => $this->generate_id(),
                 'gateway' => __CLASS__,
-                'icon' => MEMBERPRESS_CRYPTOPAY_URL . '/assets/images/icon.png',
+                'icon' => MEMBERPRESS_CRYPTOPAY_URL . 'assets/images/icon.png',
                 'label' => __('CryptoPay', 'memberpress-cryptopay'),
                 'desc' => __('Pay with cryptocurrencies via CryptoPay', 'memberpress-cryptopay'),
                 'use_label' => true,
@@ -290,6 +291,8 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
         } else {
             $cryptopayTheme = 'light';
         }
+
+        $invoiceHeader = $this->settings->invoice_header ?? false;
         ?>
         <table >
             <tr>
@@ -298,6 +301,15 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
                     <select name="<?php echo esc_attr($mepr_options->integrations_str); ?>[<?php echo esc_attr($this->id);?>][cryptopay_theme]" class="mepr-auto-trim">
                         <option value="light" <?php echo esc_attr($cryptopayTheme == 'light' ? 'selected' : '') ?>><?php echo esc_html__('Light', 'memberpress-cryptopay') ?></option>
                         <option value="dark" <?php echo esc_attr($cryptopayTheme == 'dark' ? 'selected' : '') ?>><?php echo esc_html__('Dark', 'memberpress-cryptopay') ?></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><?php echo esc_html__('Header:', 'memberpress-cryptopay'); ?></td>
+                <td>
+                    <select name="<?php echo esc_attr($mepr_options->integrations_str); ?>[<?php echo esc_attr($this->id);?>][invoice_header]" class="mepr-auto-trim">
+                        <option value="1" <?php echo esc_attr($invoiceHeader ? 'selected' : '') ?>><?php echo esc_html__('Show', 'memberpress-cryptopay') ?></option>
+                        <option value="0" <?php echo esc_attr(!$invoiceHeader ? 'selected' : '') ?>><?php echo esc_html__('Hide', 'memberpress-cryptopay') ?></option>
                     </select>
                 </td>
             </tr>
@@ -409,17 +421,17 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
             }
         });
 
-        //$this->mepr_invoice_header($txn);
+        if ($this->settings->invoice_header ?? false) {
+            $this->mepr_invoice_header($txn);
+        }
         ?>
         <div class="mp_wrapper mp_payment_form_wrapper">
             <?php
                 echo (new Payment('memberpress'))
                 ->setOrder(OrderType::fromArray([
-                    'amount' => $amount,
+                    'id' => (int) $txn->id,
+                    'amount' => (float) $amount,
                     'currency' => $meprOptions->currency_code,
-                ]))
-                ->setParams(ParamsType::fromArray([
-                    'transactionId' => (int) $txn->id,
                 ]))
                 ->html(loading:true);
             ?>
