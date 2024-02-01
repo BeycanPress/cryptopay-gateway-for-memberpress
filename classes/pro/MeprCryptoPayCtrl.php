@@ -8,9 +8,9 @@ defined('ABSPATH') || exit;
 // @phpcs:disable Generic.Files.LineLength
 // @phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
 
-use BeycanPress\Http\Response;
 use BeycanPress\CryptoPay\PluginHero\Hook;
 use BeycanPress\CryptoPay\Pages\TransactionPage;
+use BeycanPress\CryptoPay\PluginHero\Http\Response;
 use BeycanPress\CryptoPay\Types\Data\PaymentDataType;
 
 // @phpcs:ignore

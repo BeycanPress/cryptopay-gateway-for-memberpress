@@ -11,7 +11,7 @@ defined('ABSPATH') || exit;
 
 /**
  * Plugin Name: MemberPress - CryptoPay Gateway
- * Version:     1.0.2
+ * Version:     1.0.3
  * Plugin URI:  https://beycanpress.com/cryptopay/
  * Description: Adds Cryptocurrency payment gateway (CryptoPay) for MemberPress.
  * Author:      BeycanPress LLC
@@ -29,11 +29,11 @@ use BeycanPress\CryptoPay\Loader;
 use BeycanPress\CryptoPay\Helpers;
 use BeycanPress\CryptoPay\PluginHero\Hook;
 use BeycanPress\CryptoPayLite\Loader as LiteLoader;
-use BeycanPress\CryptoPayLite\Services as LiteServices;
+use BeycanPress\CryptoPayLite\Helpers as LiteHelpers;
 use BeycanPress\CryptoPayLite\PluginHero\Hook as LiteHook;
 
 define('MEMBERPRESS_CRYPTOPAY_FILE', __FILE__);
-define('MEMBERPRESS_CRYPTOPAY_VERSION', '1.0.2');
+define('MEMBERPRESS_CRYPTOPAY_VERSION', '1.0.3');
 define('MEMBERPRESS_CRYPTOPAY_URL', plugin_dir_url(__FILE__));
 define('MEMBERPRESS_CRYPTOPAY_DIR', plugin_dir_path(__FILE__));
 
@@ -66,7 +66,7 @@ function memberpress_cryptopay_addModels(): void
         require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/lite/Models/MemberPressCrpyoPayLiteModel.php';
         LiteHook::addFilter('models', function ($models) {
             return array_merge($models, [
-                'memberpress_lite' => new MemberPressCrpyoPayLiteModel()
+                'memberpress' => new MemberPressCrpyoPayLiteModel()
             ]);
         });
     }
@@ -97,7 +97,7 @@ add_action('plugins_loaded', function (): void {
         }
 
         if (class_exists(LiteLoader::class)) {
-            LiteServices::registerAddon('memberpress_lite');
+            LiteHelpers::registerIntegration('memberpress');
         }
 
         add_filter('mepr-gateway-paths', 'addGatewayPathToMemberPress', 10, 1);

@@ -14,7 +14,6 @@ use BeycanPress\CryptoPay\Payment;
 use BeycanPress\CryptoPay\Settings;
 use BeycanPress\CryptoPay\PluginHero\Hook;
 use BeycanPress\CryptoPay\Types\Order\OrderType;
-use BeycanPress\CryptoPay\Types\Transaction\ParamsType;
 
 // @phpcs:ignore
 class MeprCryptoPayGateway extends MeprBaseRealGateway
@@ -435,15 +434,6 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
                 ]))
                 ->html(loading:true);
             ?>
-            <style>
-                .cp-modal .waiting-icon svg {
-                    width: 94px!important;
-                    height: 94px!important;
-                }
-                .cp-explorer-btn {
-                    height: auto!important;
-                }
-            </style>
         </div>
         <?php
     }
