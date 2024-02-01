@@ -4,8 +4,8 @@ Tags: Bitcoin, Ethereum, Binance Smart Chain, Blockchain, Networks, Cryptocurren
 Requires at least: 5.0
 Tested up to: 6.4.2
 Requires PHP: 8.1
-Stable Tag: 1.0.2
-Version: 1.0.2
+Stable Tag: 1.0.3
+Version: 1.0.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -52,6 +52,9 @@ You can easily translate with Loco translate.
 3. Enjoy.
 
 == Changelog ==
+
+= 1.0.3 =
+* Updated: Compatibility due to updates in CryptoPay Lite 2.1.1
 
 = 1.0.2 =
 * Updated: Compatibility due to updates in CryptoPay 2.1.0
