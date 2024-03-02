@@ -8,7 +8,7 @@ defined('ABSPATH') || exit;
 use BeycanPress\CryptoPayLite\Models\AbstractTransaction;
 
 // @phpcs:ignore
-class MemberPressCrpyoPayLiteModel extends AbstractTransaction
+class MemberPressCryptoPayLiteModel extends AbstractTransaction
 {
     public string $addon = 'memberpress';
 

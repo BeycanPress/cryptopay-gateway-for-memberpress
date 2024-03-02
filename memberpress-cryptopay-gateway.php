@@ -39,12 +39,12 @@ define('MEMBERPRESS_CRYPTOPAY_DIR', plugin_dir_path(__FILE__));
 
 register_activation_hook(MEMBERPRESS_CRYPTOPAY_FILE, function (): void {
     if (class_exists(Loader::class)) {
-        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/pro/Models/MemberPressCrpyoPayModel.php';
-        (new MemberPressCrpyoPayModel())->createTable();
+        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/pro/Models/MemberPressCryptoPayModel.php';
+        (new MemberPressCryptoPayModel())->createTable();
     }
     if (class_exists(LiteLoader::class)) {
-        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/lite/Models/MemberPressCrpyoPayLiteModel.php';
-        (new MemberPressCrpyoPayLiteModel())->createTable();
+        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/lite/Models/MemberPressCryptoPayLiteModel.php';
+        (new MemberPressCryptoPayLiteModel())->createTable();
     }
 });
 
@@ -54,19 +54,19 @@ register_activation_hook(MEMBERPRESS_CRYPTOPAY_FILE, function (): void {
 function memberpress_cryptopay_addModels(): void
 {
     if (class_exists(Loader::class)) {
-        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/pro/Models/MemberPressCrpyoPayModel.php';
+        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/pro/Models/MemberPressCryptoPayModel.php';
         Hook::addFilter('models', function ($models) {
             return array_merge($models, [
-                'memberpress' => new MemberPressCrpyoPayModel()
+                'memberpress' => new MemberPressCryptoPayModel()
             ]);
         });
     }
 
     if (class_exists(LiteLoader::class)) {
-        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/lite/Models/MemberPressCrpyoPayLiteModel.php';
+        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/lite/Models/MemberPressCryptoPayLiteModel.php';
         LiteHook::addFilter('models', function ($models) {
             return array_merge($models, [
-                'memberpress' => new MemberPressCrpyoPayLiteModel()
+                'memberpress' => new MemberPressCryptoPayLiteModel()
             ]);
         });
     }
