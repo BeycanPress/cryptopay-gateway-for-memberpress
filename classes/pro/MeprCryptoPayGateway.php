@@ -226,7 +226,8 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
     {
         $order_bumps = [];
         try {
-            $orderBumpProductIds = isset($_GET['obs']) && is_array($_GET['obs']) ? array_map('intval', $_GET['obs']) : [];
+            // obs parameter clearing with absint method with array_map
+            $orderBumpProductIds = isset($_GET['obs']) && is_array($_GET['obs']) ? array_map('absint', $_GET['obs']) : [];
             $orderBumpProducts = MeprCheckoutCtrl::get_order_bump_products($txn->product_id, $orderBumpProductIds);
 
             foreach ($orderBumpProducts as $product) {
@@ -352,7 +353,6 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
 
         $txn->user_id    = $usr->ID;
         $txn->product_id = sanitize_key($prd->ID);
-        // $txn->set_subtotal($_POST['amount']); //Don't do this, it doesn't work right on existing txns
         $txn->amount     = MeprUtils::format_currency_us_float($sub->price);
         $txn->tax_amount = MeprUtils::format_currency_us_float($sub->tax_amount);
         $txn->total      = $txn->amount + $txn->tax_amount;

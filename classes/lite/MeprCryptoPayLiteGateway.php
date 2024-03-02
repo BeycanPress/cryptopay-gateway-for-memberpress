@@ -236,7 +236,8 @@ class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
     {
         $order_bumps = [];
         try {
-            $orderBumpProductIds = isset($_GET['obs']) && is_array($_GET['obs']) ? array_map('intval', $_GET['obs']) : [];
+            // obs parameter clearing with absint method with array_map
+            $orderBumpProductIds = isset($_GET['obs']) && is_array($_GET['obs']) ? array_map('absint', $_GET['obs']) : [];
             $orderBumpProducts = MeprCheckoutCtrl::get_order_bump_products($txn->product_id, $orderBumpProductIds);
 
             foreach ($orderBumpProducts as $product) {
