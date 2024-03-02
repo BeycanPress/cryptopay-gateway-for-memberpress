@@ -14,7 +14,6 @@ use BeycanPress\CryptoPay\Payment;
 use BeycanPress\CryptoPay\Settings;
 use BeycanPress\CryptoPay\PluginHero\Hook;
 use BeycanPress\CryptoPay\Types\Order\OrderType;
-use BeycanPress\CryptoPay\Types\Transaction\ParamsType;
 
 // @phpcs:ignore
 class MeprCryptoPayGateway extends MeprBaseRealGateway
@@ -227,7 +226,8 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
     {
         $order_bumps = [];
         try {
-            $orderBumpProductIds = isset($_GET['obs']) && is_array($_GET['obs']) ? array_map('intval', $_GET['obs']) : [];
+            // obs parameter clearing with absint method with array_map
+            $orderBumpProductIds = isset($_GET['obs']) && is_array($_GET['obs']) ? array_map('absint', $_GET['obs']) : [];
             $orderBumpProducts = MeprCheckoutCtrl::get_order_bump_products($txn->product_id, $orderBumpProductIds);
 
             foreach ($orderBumpProducts as $product) {
@@ -353,7 +353,6 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
 
         $txn->user_id    = $usr->ID;
         $txn->product_id = sanitize_key($prd->ID);
-        // $txn->set_subtotal($_POST['amount']); //Don't do this, it doesn't work right on existing txns
         $txn->amount     = MeprUtils::format_currency_us_float($sub->price);
         $txn->tax_amount = MeprUtils::format_currency_us_float($sub->tax_amount);
         $txn->total      = $txn->amount + $txn->tax_amount;
@@ -435,15 +434,6 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
                 ]))
                 ->html(loading:true);
             ?>
-            <style>
-                .cp-modal .waiting-icon svg {
-                    width: 94px!important;
-                    height: 94px!important;
-                }
-                .cp-explorer-btn {
-                    height: auto!important;
-                }
-            </style>
         </div>
         <?php
     }

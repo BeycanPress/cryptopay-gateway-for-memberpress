@@ -10,8 +10,10 @@ defined('ABSPATH') || exit;
 // @phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
 // @phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint
 
+use BeycanPress\CryptoPayLite\Payment;
 use BeycanPress\CryptoPayLite\Settings;
-use BeycanPress\CryptoPayLite\Services;
+use BeycanPress\CryptoPayLite\PluginHero\Hook;
+use BeycanPress\CryptoPayLite\Types\Order\OrderType;
 
 // @phpcs:ignore
 class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
@@ -214,16 +216,13 @@ class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
         ?>
         <div class="mp_wrapper mp_payment_form_wrapper">
             <?php
-                echo Services::startPaymentProcess([
-                    'amount' => $amount,
+                echo (new Payment('memberpress'))
+                ->setOrder(OrderType::fromArray([
+                    'id' => (int) $transactionId,
+                    'amount' => (float) $amount,
                     'currency' => $meprOptions->currency_code,
-                ], 'memberpress_lite', true, [
-                    'MemberPress' => [
-                        'userId' => (int) $user->ID,
-                        'productId' => (int) $productId,
-                        'transactionId' => (int) $transactionId,
-                    ]
-                ]);
+                ]))
+                ->html(loading:true);
             ?>
         </div>
         <?php
@@ -237,7 +236,8 @@ class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
     {
         $order_bumps = [];
         try {
-            $orderBumpProductIds = isset($_GET['obs']) && is_array($_GET['obs']) ? array_map('intval', $_GET['obs']) : [];
+            // obs parameter clearing with absint method with array_map
+            $orderBumpProductIds = isset($_GET['obs']) && is_array($_GET['obs']) ? array_map('absint', $_GET['obs']) : [];
             $orderBumpProducts = MeprCheckoutCtrl::get_order_bump_products($txn->product_id, $orderBumpProductIds);
 
             foreach ($orderBumpProducts as $product) {
