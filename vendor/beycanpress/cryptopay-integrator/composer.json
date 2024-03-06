@@ -1,0 +1,25 @@
+{
+    "name": "beycanpress/cryptopay-integrator",
+    "version": "0.1.5",
+    "description": "CryptoPay and CryptoPay Lite integration wrapper",
+    "type": "library",
+    "license": "MIT",
+    "author": "BeycanPress",
+    "support": {
+        "issues": "https://github.com/BeycanPress/cryptopay-integrator/issues"
+    },
+    "homepage": "https://github.com/BeycanPress/cryptopay-integrator",
+    "require": {
+        "php": ">=8.1"
+    },
+    "scripts": {
+        "phpcs": "phpcs --standard=phpcs.xml .",
+        "phpcbf": "phpcbf --standard=phpcs.xml .",
+        "install-phpcs": "composer config --global --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true && composer global require --dev squizlabs/php_codesniffer=* slevomat/coding-standard"
+    },
+    "autoload": {
+        "psr-4": {
+            "BeycanPress\\CryptoPay\\Integrator\\": "src"
+        }
+    }
+}
