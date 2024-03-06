@@ -299,8 +299,8 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
                 <td><?php echo esc_html__('Theme:', 'memberpress-cryptopay'); ?></td>
                 <td>
                     <select name="<?php echo esc_attr($mepr_options->integrations_str); ?>[<?php echo esc_attr($this->id);?>][cryptopay_theme]" class="mepr-auto-trim">
-                        <option value="light" <?php echo esc_attr($cryptopayTheme == 'light' ? 'selected' : '') ?>><?php echo esc_html__('Light', 'memberpress-cryptopay') ?></option>
-                        <option value="dark" <?php echo esc_attr($cryptopayTheme == 'dark' ? 'selected' : '') ?>><?php echo esc_html__('Dark', 'memberpress-cryptopay') ?></option>
+                        <option value="light" <?php echo esc_attr('light' == $cryptopayTheme ? 'selected' : '') ?>><?php echo esc_html__('Light', 'memberpress-cryptopay') ?></option>
+                        <option value="dark" <?php echo esc_attr('dark' == $cryptopayTheme ? 'selected' : '') ?>><?php echo esc_html__('Dark', 'memberpress-cryptopay') ?></option>
                     </select>
                 </td>
             </tr>
@@ -332,7 +332,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
      * @param string $message
      * @return void
      */
-    public function display_update_account_form($subscription_id, $errors = array(), $message = ""): void
+    public function display_update_account_form($subscription_id, $errors = [], $message = ""): void
     {
         $sub = new MeprSubscription($subscription_id);
         $usr = $sub->user();
@@ -368,7 +368,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
             $txn->created_at = MeprUtils::ts_to_mysql_date(time());
         }
 
-        if ($sub->limit_cycles_action != 'lifetime') {
+        if ('lifetime' != $sub->limit_cycles_action) {
             $expires_at = $sub->get_expires_at(strtotime($txn->created_at));
 
             switch ($sub->limit_cycles_expires_type) {
@@ -442,7 +442,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
      * @param array<mixed> $errors
      * @return void
      */
-    public function validate_update_account_form($errors = array()): void
+    public function validate_update_account_form($errors = []): void
     {
         return;
     }
