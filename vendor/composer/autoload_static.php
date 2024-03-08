@@ -6,20 +6,6 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit6be0de7c2c544c6b51cbdeae0bbe23be
 {
-    public static $prefixLengthsPsr4 = array (
-        'B' => 
-        array (
-            'BeycanPress\\CryptoPay\\Integrator\\' => 33,
-        ),
-    );
-
-    public static $prefixDirsPsr4 = array (
-        'BeycanPress\\CryptoPay\\Integrator\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/beycanpress/cryptopay-integrator/src',
-        ),
-    );
-
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
@@ -27,8 +13,6 @@ class ComposerStaticInit6be0de7c2c544c6b51cbdeae0bbe23be
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit6be0de7c2c544c6b51cbdeae0bbe23be::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit6be0de7c2c544c6b51cbdeae0bbe23be::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit6be0de7c2c544c6b51cbdeae0bbe23be::$classMap;
 
         }, null, ClassLoader::class);

@@ -6,5 +6,4 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'BeycanPress\\CryptoPay\\Integrator\\' => array($vendorDir . '/beycanpress/cryptopay-integrator/src'),
 );

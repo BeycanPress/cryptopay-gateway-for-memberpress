@@ -4,44 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fe4f2337dedacb4e5c49da7935e6767",
-    "packages": [
-        {
-            "name": "beycanpress/cryptopay-integrator",
-            "version": "0.1.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/BeycanPress/cryptopay-integrator.git",
-                "reference": "3e09b41450580cf9591b52f9e4f73bbce0970637"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/BeycanPress/cryptopay-integrator/zipball/3e09b41450580cf9591b52f9e4f73bbce0970637",
-                "reference": "3e09b41450580cf9591b52f9e4f73bbce0970637",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "BeycanPress\\CryptoPay\\Integrator\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "CryptoPay and CryptoPay Lite integration wrapper",
-            "homepage": "https://github.com/BeycanPress/cryptopay-integrator",
-            "support": {
-                "issues": "https://github.com/BeycanPress/cryptopay-integrator/issues",
-                "source": "https://github.com/BeycanPress/cryptopay-integrator/tree/0.1.5"
-            },
-            "time": "2024-03-06T14:42:16+00:00"
-        }
-    ],
+    "content-hash": "d751713988987e9331980363e24189ce",
+    "packages": [],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
