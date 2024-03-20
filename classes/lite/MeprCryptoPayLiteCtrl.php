@@ -56,6 +56,7 @@ class MeprCryptoPayLiteCtrl extends MeprBaseCtrl
 
             $txn->store();
 
+            MeprUtils::send_signup_notices($txn);
             MeprUtils::send_transaction_receipt_notices($txn);
         });
 
