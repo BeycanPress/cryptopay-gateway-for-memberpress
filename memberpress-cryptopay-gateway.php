@@ -84,7 +84,7 @@ add_action('plugins_loaded', function (): void {
         add_action('admin_notices', function (): void {
             ?>
                 <div class="notice notice-error">
-                    <p><?php echo sprintf(esc_html__('MemberPress - CryptoPay Gateway: This plugin requires MemberPress to work. You can buy MemberPress by %s.', 'memberpress-cryptopay'), '<a href="https://memberpress.com/" target="_blank">' . esc_html__('clicking here', 'memberpress-cryptopay') . '</a>'); ?></p>
+                    <p><?php echo wp_kses_post(sprintf(__('MemberPress - CryptoPay Gateway: This plugin requires MemberPress to work. You can buy MemberPress by %s.', 'memberpress-cryptopay'), '<a href="https://memberpress.com/" target="_blank">' . esc_html__('clicking here', 'memberpress-cryptopay') . '</a>')); ?></p>
                 </div>
             <?php
         });
@@ -133,7 +133,7 @@ add_action('plugins_loaded', function (): void {
         add_action('admin_notices', function (): void {
             ?>
                 <div class="notice notice-error">
-                    <p><?php echo sprintf(esc_html__('MemberPress - CryptoPay Gateway: This plugin is an extra feature plugin so it cannot do anything on its own. It needs CryptoPay to work. You can buy CryptoPay by %s.', 'memberpress-cryptopay'), '<a href="https://beycanpress.com/product/cryptopay-all-in-one-cryptocurrency-payments-for-wordpress/?utm_source=wp_org_addons&utm_medium=memberpress" target="_blank">' . esc_html__('clicking here', 'memberpress-cryptopay') . '</a>'); ?></p>
+                    <p><?php echo wp_kses_post(sprintf(__('MemberPress - CryptoPay Gateway: This plugin is an extra feature plugin so it cannot do anything on its own. It needs CryptoPay to work. You can buy CryptoPay by %s.', 'memberpress-cryptopay'), '<a href="https://beycanpress.com/product/cryptopay-all-in-one-cryptocurrency-payments-for-wordpress/?utm_source=wp_org_addons&utm_medium=memberpress" target="_blank">' . esc_html__('clicking here', 'memberpress-cryptopay') . '</a>')); ?></p>
                 </div>
             <?php
         });
