@@ -47,8 +47,8 @@ You can easily translate with Loco translate.
 
 == Installation ==
 
-1. Upload the entire `/memberpress-cryptopay-gateway` directory to the `/wp-content/plugins/` directory.
-2. Activate MemberPress - CryptoPay Gateway through the 'Plugins' menu in WordPress.
+1. Upload the entire `/cryptopay-gateway-for-memberpress` directory to the `/wp-content/plugins/` directory.
+2. Activate CryptoPay Gateway for MemberPress through the 'Plugins' menu in WordPress.
 3. Enjoy.
 
 == Changelog ==

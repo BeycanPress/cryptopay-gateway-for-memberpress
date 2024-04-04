@@ -1,7 +1,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: MemberPress - CryptoPay Gateway\n"
+"Project-Id-Version: CryptoPay Gateway for MemberPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-24 11:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -55,13 +55,13 @@ msgid "Light"
 msgstr ""
 
 #. Name of the plugin
-msgid "MemberPress - CryptoPay Gateway"
+msgid "CryptoPay Gateway for MemberPress"
 msgstr ""
 
 #: memberpress-cryptopay-gateway.php:119
 #, php-format
 msgid ""
-"MemberPress - CryptoPay Gateway: This plugin is an extra feature plugin so "
+"CryptoPay Gateway for MemberPress: This plugin is an extra feature plugin so "
 "it cannot do anything on its own. It needs CryptoPay to work. You can buy "
 "CryptoPay by %s."
 msgstr ""
@@ -69,7 +69,7 @@ msgstr ""
 #: memberpress-cryptopay-gateway.php:74
 #, php-format
 msgid ""
-"MemberPress - CryptoPay Gateway: This plugin requires MemberPress to work. "
+"CryptoPay Gateway for MemberPress: This plugin requires MemberPress to work. "
 "You can buy MemberPress by %s."
 msgstr ""
 
