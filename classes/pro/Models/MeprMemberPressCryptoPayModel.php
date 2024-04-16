@@ -5,10 +5,11 @@ declare(strict_types=1);
 defined('ABSPATH') || exit;
 
 // @phpcs:disable PSR1.Files.SideEffects
-use BeycanPress\CryptoPayLite\Models\AbstractTransaction;
+
+use BeycanPress\CryptoPay\Models\AbstractTransaction;
 
 // @phpcs:ignore
-class MemberPressCryptoPayLiteModel extends AbstractTransaction
+class MeprMemberPressCryptoPayModel extends AbstractTransaction
 {
     public string $addon = 'memberpress';
 

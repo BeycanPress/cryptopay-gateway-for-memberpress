@@ -21,7 +21,7 @@ defined('ABSPATH') || exit;
  * Text Domain: memberpress-cryptopay
  * Tags: Cryptopay, Cryptocurrency, WooCommerce, WordPress, MetaMask, Trust, Binance, Wallet, Ethereum, Bitcoin, Binance smart chain, Payment, Plugin, Gateway, Moralis, Converter, API, coin market cap, CMC
  * Requires at least: 5.0
- * Tested up to: 6.4.3
+ * Tested up to: 6.5.2
  * Requires PHP: 8.1
 */
 
@@ -39,12 +39,12 @@ define('MEMBERPRESS_CRYPTOPAY_DIR', plugin_dir_path(__FILE__));
 
 register_activation_hook(MEMBERPRESS_CRYPTOPAY_FILE, function (): void {
     if (class_exists(Loader::class)) {
-        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/pro/Models/MemberPressCryptoPayModel.php';
-        (new MemberPressCryptoPayModel())->createTable();
+        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/pro/Models/MeprMemberPressCryptoPayModel.php';
+        (new MeprMemberPressCryptoPayModel())->createTable();
     }
     if (class_exists(LiteLoader::class)) {
-        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/lite/Models/MemberPressCryptoPayLiteModel.php';
-        (new MemberPressCryptoPayLiteModel())->createTable();
+        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/lite/Models/MeprMemberPressCryptoPayLiteModel.php';
+        (new MeprMemberPressCryptoPayLiteModel())->createTable();
     }
 });
 
@@ -54,19 +54,19 @@ register_activation_hook(MEMBERPRESS_CRYPTOPAY_FILE, function (): void {
 function memberpress_cryptopay_addModels(): void
 {
     if (class_exists(Loader::class)) {
-        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/pro/Models/MemberPressCryptoPayModel.php';
+        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/pro/Models/MeprMemberPressCryptoPayModel.php';
         Hook::addFilter('models', function ($models) {
             return array_merge($models, [
-                'memberpress' => new MemberPressCryptoPayModel()
+                'memberpress' => new MeprMemberPressCryptoPayModel()
             ]);
         });
     }
 
     if (class_exists(LiteLoader::class)) {
-        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/lite/Models/MemberPressCryptoPayLiteModel.php';
+        require_once MEMBERPRESS_CRYPTOPAY_DIR . 'classes/lite/Models/MeprMemberPressCryptoPayLiteModel.php';
         LiteHook::addFilter('models', function ($models) {
             return array_merge($models, [
-                'memberpress' => new MemberPressCryptoPayLiteModel()
+                'memberpress' => new MeprMemberPressCryptoPayLiteModel()
             ]);
         });
     }

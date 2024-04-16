@@ -12,7 +12,7 @@ defined('ABSPATH') || exit;
 
 use BeycanPress\CryptoPayLite\Payment;
 use BeycanPress\CryptoPayLite\Settings;
-use BeycanPress\CryptoPayLite\PluginHero\Hook;
+use BeycanPress\CryptoPayLite\PluginHero\Helpers;
 use BeycanPress\CryptoPayLite\Types\Order\OrderType;
 
 // @phpcs:ignore
@@ -216,13 +216,13 @@ class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
         ?>
         <div class="mp_wrapper mp_payment_form_wrapper">
             <?php
-                echo (new Payment('memberpress'))
+                Helpers::ksesEcho((new Payment('memberpress'))
                 ->setOrder(OrderType::fromArray([
                     'id' => (int) $transactionId,
                     'amount' => (float) $amount,
                     'currency' => $meprOptions->currency_code,
                 ]))
-                ->html(loading:true);
+                ->html(loading:true));
             ?>
         </div>
         <?php
@@ -257,9 +257,9 @@ class MeprCryptoPayLiteGateway extends MeprBaseRealGateway
         }
 
         if (count($order_bumps)) {
-            echo MeprTransactionsHelper::get_invoice_order_bumps($txn, '', $order_bumps);
+            Helpers::ksesEcho(MeprTransactionsHelper::get_invoice_order_bumps($txn, '', $order_bumps));
         } else {
-            echo MeprTransactionsHelper::get_invoice($txn);
+            Helpers::ksesEcho(MeprTransactionsHelper::get_invoice($txn));
         }
     }
 
