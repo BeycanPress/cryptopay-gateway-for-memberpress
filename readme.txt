@@ -1,6 +1,6 @@
 === Cryptocurrency Payment Gateway Plugin for MemberPress by CryptoPay ===
 Contributors: BeycanPress
-Tags: Bitcoin, Ethereum, Binance Smart Chain, Blockchain, Networks, Cryptocurrency, Payments, Gateway, WordPress, MemberPress
+Tags: Bitcoin, Ethereum, Cryptocurrency, Payments, MemberPress
 Requires at least: 5.0
 Tested up to: 6.5.2
 Requires PHP: 8.1
