@@ -45,6 +45,12 @@ With the default configuration, this plugin, in itself, does not:
 
 You can easily translate with Loco translate.
 
+== Screenshots ==
+
+1. Screen shot 1
+2. Screen shot 2
+3. Screen shot 3
+
 == Installation ==
 
 1. Upload the entire `/cryptopay-gateway-for-memberpress` directory to the `/wp-content/plugins/` directory.
