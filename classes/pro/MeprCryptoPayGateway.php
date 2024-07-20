@@ -413,12 +413,13 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
         $meprOptions = MeprOptions::fetch();
         $amount = MeprUtils::maybe_round_to_minimum_amount($txn->total);
 
-        Hook::addFilter('theme', function () {
+        Hook::addFilter('theme', function (array $theme) {
             if (isset($this->settings->cryptopay_theme)) {
-                return trim($this->settings->cryptopay_theme);
+                $theme['mode'] = trim($this->settings->cryptopay_theme);
             } else {
-                return 'light';
+                $theme['mode'] = 'light';
             }
+            return $theme;
         });
 
         if ($this->settings->invoice_header ?? false) {
