@@ -199,6 +199,7 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
      */
     public function process_payment_form($txn): void
     {
+        // boolval($txn->product()->trial)
         if ($txn->amount <= 0.00) {
             MeprTransaction::create_free_transaction($txn);
             return;

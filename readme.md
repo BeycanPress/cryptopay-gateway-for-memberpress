@@ -12,6 +12,6 @@ First of all, you must have one of the Lite or Premium versions of CryptoPay. Be
 
 As you can see in the pictures, you can then start receiving crypto payments directly with MemberPress.
 
-<a href="https://ibb.co/p4tZDd0"><img src="https://i.ibb.co/MPYpT72/Screenshot-1.png" alt="Screenshot-1" border="0"></a>
-<a href="https://ibb.co/cbh8MPy"><img src="https://i.ibb.co/pWjKGg1/Screenshot-2.png" alt="Screenshot-2" border="0"></a>
-<a href="https://ibb.co/BCJg0Hm"><img src="https://i.ibb.co/rwhZDKg/Screenshot-3.png" alt="Screenshot-3" border="0"></a>
+[Screenshot 1](https://i.ibb.co/6yzpKRw/screenshot-1.png)
+[Screenshot 2](https://i.ibb.co/gDk3YFr/screenshot-2.png)
+[Screenshot 3](https://i.ibb.co/nPFj1w3/screenshot-3.png)
