@@ -11,7 +11,7 @@ defined('ABSPATH') || exit;
 
 /**
  * Plugin Name: CryptoPay Gateway for MemberPress
- * Version:     1.0.5
+ * Version:     1.0.6
  * Plugin URI:  https://beycanpress.com/cryptopay/
  * Description: Adds Cryptocurrency payment gateway (CryptoPay) for MemberPress.
  * Author:      BeycanPress LLC
@@ -21,7 +21,7 @@ defined('ABSPATH') || exit;
  * Text Domain: memberpress-cryptopay
  * Tags: Bitcoin, Ethereum, Cryptocurrency, Payments, MemberPress
  * Requires at least: 5.0
- * Tested up to: 6.6
+ * Tested up to: 6.7.1
  * Requires PHP: 8.1
 */
 
@@ -33,7 +33,7 @@ use BeycanPress\CryptoPayLite\Helpers as LiteHelpers;
 use BeycanPress\CryptoPayLite\PluginHero\Hook as LiteHook;
 
 define('MEMBERPRESS_CRYPTOPAY_FILE', __FILE__);
-define('MEMBERPRESS_CRYPTOPAY_VERSION', '1.0.4');
+define('MEMBERPRESS_CRYPTOPAY_VERSION', '1.0.6');
 define('MEMBERPRESS_CRYPTOPAY_URL', plugin_dir_url(__FILE__));
 define('MEMBERPRESS_CRYPTOPAY_DIR', plugin_dir_path(__FILE__));
 
@@ -74,11 +74,13 @@ function memberpress_cryptopay_addModels(): void
 
 memberpress_cryptopay_addModels();
 
+add_action('init', function (): void {
+    load_plugin_textdomain('memberpress-cryptopay', false, basename(__DIR__) . '/languages');
+});
+
 add_action('plugins_loaded', function (): void {
 
     memberpress_cryptopay_addModels();
-
-    load_plugin_textdomain('memberpress-cryptopay', false, basename(__DIR__) . '/languages');
 
     if (!defined('MEPR_VERSION')) {
         add_action('admin_notices', function (): void {

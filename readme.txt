@@ -2,10 +2,10 @@
 Contributors: BeycanPress
 Tags: Bitcoin, Ethereum, Cryptocurrency, Payments, MemberPress
 Requires at least: 5.0
-Tested up to: 6.6
+Tested up to: 6.7.1
 Requires PHP: 8.1
-Stable Tag: 1.0.5
-Version: 1.0.5
+Stable Tag: 1.0.6
+Version: 1.0.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -63,6 +63,10 @@ You can easily translate with Loco translate.
 3. Enjoy.
 
 == Changelog ==
+
+= 1.0.6 =
+* Updated: Compatibility for CryptoPay Premium White Label
+* Fixed: Text domain warning
 
 = 1.0.4 =
 * Updated: Fixed welcome emails not works

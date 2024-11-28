@@ -10,10 +10,10 @@ defined('ABSPATH') || exit;
 // @phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
 // @phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint
 
+use BeycanPress\CryptoPay\Helpers;
 use BeycanPress\CryptoPay\Payment;
 use BeycanPress\CryptoPay\Settings;
 use BeycanPress\CryptoPay\PluginHero\Hook;
-use BeycanPress\CryptoPay\PluginHero\Helpers;
 use BeycanPress\CryptoPay\Types\Order\OrderType;
 
 // @phpcs:ignore
@@ -98,10 +98,14 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
     {
         $this->name = __('CryptoPay', 'memberpress-cryptopay');
         $this->key  = 'cryptopay';
-        $this->icon = MEMBERPRESS_CRYPTOPAY_URL . 'assets/images/icon.png';
-        $this->desc = __('Pay with cryptocurrencies via CryptoPay', 'memberpress-cryptopay');
+        $this->desc = __('Pay with cryptocurrencies.', 'memberpress-cryptopay');
         $this->set_defaults();
         $this->has_spc_form = true;
+
+        if (!Helpers::getProp('licenseIsWhiteLabel', false)) {
+            $this->icon = MEMBERPRESS_CRYPTOPAY_URL . 'assets/images/icon.png';
+            $this->desc = __('Pay with cryptocurrencies via CryptoPay.', 'memberpress-cryptopay');
+        }
 
         $this->capabilities = [
             'process-payments',
@@ -141,15 +145,19 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
             [
                 'id' => $this->generate_id(),
                 'gateway' => __CLASS__,
-                'icon' => MEMBERPRESS_CRYPTOPAY_URL . 'assets/images/icon.png',
                 'label' => __('CryptoPay', 'memberpress-cryptopay'),
-                'desc' => __('Pay with cryptocurrencies via CryptoPay', 'memberpress-cryptopay'),
+                'desc' => __('Pay with cryptocurrencies.', 'memberpress-cryptopay'),
                 'use_label' => true,
                 'use_icon' => true,
                 'use_desc' => true,
             ],
             (array) $this->settings
         );
+
+        if (!Helpers::getProp('licenseIsWhiteLabel', false)) {
+            $this->settings->icon = MEMBERPRESS_CRYPTOPAY_URL . 'assets/images/icon.png';
+            $this->settings->desc = __('Pay with cryptocurrencies via CryptoPay.', 'memberpress-cryptopay');
+        }
 
         $this->id = $this->settings->id;
         $this->label = $this->settings->label;
@@ -163,12 +171,14 @@ class MeprCryptoPayGateway extends MeprBaseRealGateway
      */
     public function enqueue_payment_form_scripts(): void
     {
-        wp_enqueue_style(
-            'mepr-cryptopay-form',
-            MEMBERPRESS_CRYPTOPAY_URL . '/assets/css/main.css',
-            [],
-            MEMBERPRESS_CRYPTOPAY_VERSION
-        );
+        if (!Helpers::getProp('licenseIsWhiteLabel', false)) {
+            wp_enqueue_style(
+                'mepr-cryptopay-form',
+                MEMBERPRESS_CRYPTOPAY_URL . '/assets/css/main.css',
+                [],
+                MEMBERPRESS_CRYPTOPAY_VERSION
+            );
+        }
     }
 
     // Process payment
