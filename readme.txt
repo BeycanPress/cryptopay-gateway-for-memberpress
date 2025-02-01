@@ -33,7 +33,7 @@ This integration add-on allows you to use CryptoPay with MemberPress and sell yo
 
 **<a href="https://memberpress.com/plans/pricing/">Review MemberPress</a>**
 
-See CryptoPay Demo **<a href="https://cryptopay.beycanpress.net/register/test-membership/" target="_blank">Demo</a>**
+**<a href="https://cryptopay.beycanpress.net/register/test-membership/" target="_blank">See CryptoPay Demo</a>**
 
 #### Note: 
 Unfortunately, ongoing subscriptions are not supported in the free version. For ongoing subscriptions, we recommend that you purchase CryptoPay premium so that users can renew their subscription.
