@@ -22,13 +22,15 @@ class MeprCryptoPayCtrl extends MeprBaseCtrl
     public function load_hooks(): void
     {
         if (is_admin()) {
-            new TransactionPage(
-                esc_html__('MemberPress transactions', 'cryptopay'),
-                'memberpress',
-                9,
-                [],
-                ['updatedAt']
-            );
+            add_action('init', function (): void {
+                new TransactionPage(
+                    esc_html__('MemberPress transactions', 'cryptopay'),
+                    'memberpress',
+                    9,
+                    [],
+                    ['updatedAt']
+                );
+            });
         }
 
         Hook::addFilter('init_memberpress', function (PaymentDataType $data) {

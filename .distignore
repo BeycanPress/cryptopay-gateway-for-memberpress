@@ -1,8 +1,8 @@
 /.git
 /.github
 /.wordpress-org
-.distignore
 .gitignore
+.distignore
 .gitattributes
 phpcs.xml
 readme.md
